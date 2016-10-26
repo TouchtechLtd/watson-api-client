@@ -107,6 +107,7 @@ class WatsonAPIClient
       class #{list['title'].gsub(/\s+(.)/) {$1.upcase}} < #{klass}
         Service = WatsonAPIClient::Services['#{env}']
         RawDoc  = "#{list['path']}"
+        RawDoc.gsub!('v3','v2') if RawDoc =~ /personality-insights-v3/i
 
         class << self
           alias :_const_missing :const_missing
@@ -124,7 +125,7 @@ class WatsonAPIClient
     }
   end
 
-  # All subclass constructors use following hash parameter - 
+  # All subclass constructors use following hash parameter -
   #
   # @param [Hash] options See following..
   # @option options [String] :url                API URL (default: the url described in listings or VCAP_SERVICES)
@@ -132,7 +133,7 @@ class WatsonAPIClient
   # @option options [String] :password           USER Password (default: the password described in VCAP_SERVICES)
   # @option options [String] :apikey or :api_key API key for the Alchemy API (default: the apikey or api_key described in VCAP_SERVICES)
   # @option options [String] :version            The release date of the version of the Alchemy API.
-  # @option options [Object] other_options       Other options are passed to RestClient::Resource.new[http://www.rubydoc.info/gems/rest-client/RestClient/Resource] as it is. 
+  # @option options [Object] other_options       Other options are passed to RestClient::Resource.new[http://www.rubydoc.info/gems/rest-client/RestClient/Resource] as it is.
   #
   # @note VCAP_SERVICES[http://www.ibm.com/watson/developercloud/doc/getting_started/gs-variables.shtml#vcapServices] is IBM Bluemix™ environment variable.
   #
